@@ -1,11 +1,10 @@
 ```bash
 docker run -d --name monitor --restart unless-stopped \
   -p 127.0.0.1:28080:28080 -v monitor-data:/data -e TZ=Asia/Shanghai \
-  stqfdyr/monitor
+  ghcr.io/uyo8os/monitor
 ```
 
-镜像同时发布在 Docker Hub（`stqfdyr/monitor`）和 GHCR（`ghcr.io/monitor-probe/monitor`），内容相同，
-支持 x86_64 与 aarch64。
+镜像发布在 GHCR（`ghcr.io/uyo8os/monitor`），支持 x86_64 与 aarch64。请先在本仓库发布镜像，并配置 GHCR 包的可见性或登录权限，确保部署机器可以拉取。
 
 - `127.0.0.1:28080`：端口只对本机开放，域名由[反向代理](/install/reverse-proxy)接进来，上游写 `127.0.0.1:28080`
 - `TZ`：hub 所在的时区，必须设，见下方说明
@@ -33,7 +32,7 @@ docker logs monitor | grep Emergency
 ```yaml
 services:
   monitor:
-    image: stqfdyr/monitor
+    image: ghcr.io/uyo8os/monitor
     container_name: monitor
     restart: unless-stopped
     # 只对本机开放，域名由反代接进来
@@ -58,7 +57,7 @@ sudo mkdir -p /opt/monitor-data
 sudo chown 65534:65534 /opt/monitor-data
 docker run -d --name monitor --restart unless-stopped \
   -p 127.0.0.1:28080:28080 -v /opt/monitor-data:/data -e TZ=Asia/Shanghai \
-  stqfdyr/monitor
+  ghcr.io/uyo8os/monitor
 ```
 
 ## 升级
@@ -67,13 +66,13 @@ docker run -d --name monitor --restart unless-stopped \
 
 ```bash
 # 拉取新镜像
-docker pull stqfdyr/monitor
+docker pull ghcr.io/uyo8os/monitor
 # 删除旧容器
 docker rm -f monitor
 # 再执行一遍当初的 docker run 命令
 docker run -d --name monitor --restart unless-stopped \
   -p 127.0.0.1:28080:28080 -v monitor-data:/data -e TZ=Asia/Shanghai \
-  stqfdyr/monitor
+  ghcr.io/uyo8os/monitor
 ```
 
 compose 部署的，在 compose 文件所在目录执行：
