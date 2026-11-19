@@ -4,7 +4,7 @@ docker run -d --name monitor --restart unless-stopped \
   ghcr.io/uyo8os/monitor
 ```
 
-镜像发布在 GHCR（`ghcr.io/uyo8os/monitor`），支持 x86_64 与 aarch64。请先在本仓库发布镜像，并配置 GHCR 包的可见性或登录权限，确保部署机器可以拉取。
+发布工作流不再自动构建或推送 Docker 镜像。以上命令以自行构建并发布到 GHCR（`ghcr.io/uyo8os/monitor`）的镜像为例；使用前请确保镜像包含所需架构，并配置包的可见性或登录权限，使部署机器可以拉取。
 
 - `127.0.0.1:28080`：端口只对本机开放，域名由[反向代理](/install/reverse-proxy)接进来，上游写 `127.0.0.1:28080`
 - `TZ`：hub 所在的时区，必须设，见下方说明
@@ -62,7 +62,7 @@ docker run -d --name monitor --restart unless-stopped \
 
 ## 升级
 
-数据在数据卷里，删掉容器不影响。`docker run` 部署的：
+先自行构建并发布新版镜像。数据在数据卷里，删掉容器不影响。`docker run` 部署的：
 
 ```bash
 # 拉取新镜像

@@ -1,5 +1,5 @@
 测试机是 4 核 20 GiB 的 AMD EPYC 9275F，Debian 13。全部数字按 hub v1.4.1、agent v1.2.1 的发布版二进制实测
-（release 构建：LTO + `opt-level=z` + strip，musl 静态链接，与 Docker 镜像里的是同一个）。负载来自一个模拟
+（release 构建：LTO + `opt-level=z` + strip，musl 静态链接）。负载来自一个模拟
 agent 程序，与 hub 跑在同一台机器上，按真实 agent 的格式上报。
 
 ## 装机体积
@@ -42,7 +42,7 @@ agent 程序，与 hub 跑在同一台机器上，按真实 agent 的格式上�
 
 自己用 glibc 目标构建（`cargo build --release` 的默认目标）不一样：glibc 不把这块内存还给系统，
 每次密码登录常驻内存涨一截，串行登录 50 次后停在约 350 MiB，超过单元文件给的 `MemoryMax=256M`。
-自己构建请用 musl 目标；发布的二进制和 Docker 镜像都是 musl，没有这个问题。
+自己构建请用 musl 目标；发布的二进制，以及基于该二进制自行构建的 Docker 镜像，都使用 musl，没有这个问题。
 
 ## CPU
 
